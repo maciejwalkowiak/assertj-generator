@@ -5,7 +5,7 @@ java {
 }
 
 plugins {
-    id("java")
+    `java-library`
 }
 
 group = "com.maciejwalkowiak.assertj.generator"
@@ -16,6 +16,9 @@ repositories {
 }
 
 dependencies {
+    implementation("org.assertj:assertj-core:3.23.1")
+    implementation("com.squareup:javapoet:1.13.0")
+    implementation("org.reflections:reflections:0.10.2")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
