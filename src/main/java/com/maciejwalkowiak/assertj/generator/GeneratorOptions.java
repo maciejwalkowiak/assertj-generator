@@ -8,12 +8,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 public class GeneratorOptions {
     private AssertionMethodGenerator defaultMethodGenerator = new DefaultAssertionMethodGenerator();
     private AssertionMethodGenerator commonMethodGenerator = new CommonAssertionMethodGenerator();
     private ConstructorGenerator constructorGenerator = new DefaultConstructorGenerator();
     private EntryPointMethodGenerator entryPointMethodGenerator = new DefaultEntryPointMethodGenerator();
     private Map<Class<?>, AssertionMethodGenerator> methodGenerators = new HashMap<>();
+    @Nullable
     private String entrypointPackage;
     private Path targetDirectory;
 
@@ -24,11 +27,12 @@ public class GeneratorOptions {
         methodGenerators.put(Collection.class, new CollectionAssertionMethodGenerator());
     }
 
+    @Nullable
     String entrypointPackage() {
         return entrypointPackage;
     }
 
-    GeneratorOptions entrypointPackage(String entrypointPackage) {
+    GeneratorOptions entrypointPackage(@Nullable String entrypointPackage) {
         this.entrypointPackage = entrypointPackage;
         return this;
     }

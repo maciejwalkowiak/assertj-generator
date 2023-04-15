@@ -11,27 +11,27 @@ class ClassDescriptionTests {
     @Test
     void foo() {
         ClassDescription classDescription = ClassDescription.of(Person.class);
-        assertThat(classDescription.getAssertionClassName()).isEqualTo("PersonAssert");
-        assertThat(classDescription.getClazz()).isEqualTo(Person.class);
-        assertThat(classDescription.getMethods()).hasSize(3);
+        assertThat(classDescription.assertionClassName()).isEqualTo("PersonAssert");
+        assertThat(classDescription.clazz()).isEqualTo(Person.class);
+        assertThat(classDescription.methods()).hasSize(3);
     }
 
     @Test
     void foo2() {
         ClassDescription classDescription = ClassDescription.of(Person.class);
-        assertThat(classDescription.getMethods()).anySatisfy(method -> {
+        assertThat(classDescription.methods()).anySatisfy(method -> {
             assertThat(method.methodName()).isEqualTo("getLastName");
             assertThat(method.fieldName()).isEqualTo("lastName");
             assertThat(method.returnType()).isEqualTo(String.class);
         });
 
-        assertThat(classDescription.getMethods()).anySatisfy(method -> {
+        assertThat(classDescription.methods()).anySatisfy(method -> {
             assertThat(method.methodName()).isEqualTo("getFirstName");
             assertThat(method.fieldName()).isEqualTo("firstName");
             assertThat(method.returnType()).isEqualTo(String.class);
         });
 
-        assertThat(classDescription.getMethods()).anySatisfy(method -> {
+        assertThat(classDescription.methods()).anySatisfy(method -> {
             assertThat(method.methodName()).isEqualTo("getAge");
             assertThat(method.fieldName()).isEqualTo("age");
             assertThat(method.returnType()).isEqualTo(Optional.class);

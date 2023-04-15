@@ -16,7 +16,7 @@ public class DefaultAssertionMethodGenerator implements AssertionMethodGenerator
     public List<MethodSpec> generate(ClassDescription classDescription, MethodDescription methodDescription) {
         MethodSpec main = MethodSpec.methodBuilder(MethodNames.has(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(methodDescription.returnType(), "arg")
                 .addStatement("$T.assertThat(actual.get$L()).isEqualTo($L)", Assertions.class,
                         StringUtils.capitalize(methodDescription.fieldName()), "arg")
@@ -25,7 +25,7 @@ public class DefaultAssertionMethodGenerator implements AssertionMethodGenerator
 
         MethodSpec satisfying = MethodSpec.methodBuilder(MethodNames.hasSatisfying(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(ParameterizedTypeName.get(ClassName.get(Consumer.class), ClassName.get(methodDescription.returnType())), "arg")
                 .addStatement("$T.assertThat(actual.$L()).satisfies($L)", Assertions.class,
                         methodDescription.methodName(), "arg")

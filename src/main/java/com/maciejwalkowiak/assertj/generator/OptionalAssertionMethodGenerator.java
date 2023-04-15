@@ -16,7 +16,7 @@ public class OptionalAssertionMethodGenerator implements AssertionMethodGenerato
     public List<MethodSpec> generate(ClassDescription classDescription, MethodDescription methodDescription) {
         MethodSpec main = MethodSpec.methodBuilder(MethodNames.has(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(methodDescription.genericReturnType(0), "arg")
                 .addStatement("$T.assertThat(actual.$L()).hasValue($L)", Assertions.class,
                         methodDescription.methodName(), "arg")
@@ -25,7 +25,7 @@ public class OptionalAssertionMethodGenerator implements AssertionMethodGenerato
 
         MethodSpec satisfying = MethodSpec.methodBuilder(MethodNames.hasSatisfying(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(ParameterizedTypeName.get(ClassName.get(Consumer.class), ClassName.get(methodDescription.genericReturnType(0))), "arg")
                 .addStatement("$T.assertThat(actual.$L()).hasValueSatisfying($L)", Assertions.class,
                         methodDescription.methodName(), "arg")

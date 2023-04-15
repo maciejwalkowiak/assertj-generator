@@ -10,7 +10,7 @@ public class DefaultConstructorGenerator implements ConstructorGenerator {
     public MethodSpec generate(ClassDescription classDescription) {
         return MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(classDescription.getClazz(), "it")
-                .addStatement("super(it, $T.class)", ClassName.bestGuess(classDescription.getAssertionClassName())).build();
+                .addParameter(classDescription.clazz(), "it")
+                .addStatement("super(it, $T.class)", ClassName.bestGuess(classDescription.assertionClassName())).build();
     }
 }

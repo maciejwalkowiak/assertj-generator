@@ -30,7 +30,7 @@ public class CollectionAssertionMethodGenerator implements AssertionMethodGenera
 
         return MethodSpec.methodBuilder(MethodNames.hasSatisfying(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(
                         ParameterizedTypeName.get(ClassName.get(Consumer.class), ParameterizedTypeName.get(ClassName.get(methodDescription.returnType()), wildcardType.withBounds(methodDescription.genericReturnType(0)))),
                         "arg")
@@ -43,7 +43,7 @@ public class CollectionAssertionMethodGenerator implements AssertionMethodGenera
     private static MethodSpec hasNo(ClassDescription classDescription, MethodDescription methodDescription) {
         return MethodSpec.methodBuilder(MethodNames.hasNo(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addStatement("$T.assertThat(actual.$L()).isEmpty()", Assertions.class, methodDescription.methodName())
                 .addStatement("return this")
                 .build();
@@ -54,7 +54,7 @@ public class CollectionAssertionMethodGenerator implements AssertionMethodGenera
 
         return MethodSpec.methodBuilder(MethodNames.has(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(parameterType, "arg")
                 .varargs(true)
                 .addStatement("$T.assertThat(actual.$L()).contains($L)", Assertions.class, methodDescription.methodName(), "arg")
@@ -67,7 +67,7 @@ public class CollectionAssertionMethodGenerator implements AssertionMethodGenera
 
         return MethodSpec.methodBuilder(MethodNames.has(methodDescription))
                 .addModifiers(Modifier.PUBLIC)
-                .returns(ClassName.bestGuess(classDescription.getAssertionClassName()))
+                .returns(ClassName.bestGuess(classDescription.assertionClassName()))
                 .addParameter(collectionParameterType, "arg")
                 .addStatement("$T.assertThat(actual.$L()).containsAll($L)", Assertions.class, methodDescription.methodName(), "arg")
                 .addStatement("return this")

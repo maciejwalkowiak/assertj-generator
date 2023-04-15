@@ -25,21 +25,16 @@ class ClassDescription {
         this.methods = methods;
     }
 
-    List<MethodDescription> getMethods() {
+    List<MethodDescription> methods() {
         return methods;
     }
 
-    Class<?> getClazz() {
+    Class<?> clazz() {
         return clazz;
     }
 
-    String getAssertionClassName() {
+    String assertionClassName() {
         return clazz.getSimpleName() + "Assert";
-    }
-
-    Generator generator() {
-        return new Generator(new GeneratorOptions())
-                .addClass(clazz);
     }
 
     String packageName() {

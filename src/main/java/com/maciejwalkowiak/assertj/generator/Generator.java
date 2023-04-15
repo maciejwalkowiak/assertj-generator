@@ -17,7 +17,6 @@ import com.squareup.javapoet.TypeSpec;
 import org.assertj.core.api.Assertions;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
-import org.reflections.scanners.SubTypesScanner;
 
 class Generator {
 
@@ -40,6 +39,7 @@ class Generator {
     }
 
     GenerateResult generate() {
+        String lowerCase = options.entrypointPackage().toLowerCase();
         Set<Class<?>> allClasses = new HashSet<>();
         allClasses.addAll(this.packages.stream()
                 .flatMap(Generator::findClassesInPackage)
@@ -61,10 +61,10 @@ class Generator {
             MethodSpec main = MethodSpec.methodBuilder("assertThat")
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                     .returns(ClassName.get(generatedClass.classDescription().packageName(),
-                            generatedClass.classDescription().getAssertionClassName()))
-                    .addParameter(generatedClass.classDescription().getClazz(), "arg")
+                            generatedClass.classDescription().assertionClassName()))
+                    .addParameter(generatedClass.classDescription().clazz(), "arg")
                     .addStatement("return new $L(arg)", ClassName.get(generatedClass.classDescription().packageName(),
-                            generatedClass.classDescription().getAssertionClassName()))
+                            generatedClass.classDescription().assertionClassName()))
                     .build();
             return main;
         }).toList();
@@ -91,7 +91,7 @@ class Generator {
 
     void writeClassToFile(GeneratedClass generatedClass) {
         writeClassToFile(generatedClass.classDescription().packageName(),
-                generatedClass.classDescription().getAssertionClassName(), generatedClass.typeSpec());
+                generatedClass.classDescription().assertionClassName(), generatedClass.typeSpec());
     }
 
     void writeClassToFile(String packageName, String className, TypeSpec typeSpec) {
