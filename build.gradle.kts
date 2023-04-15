@@ -6,6 +6,7 @@ java {
 
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 group = "com.maciejwalkowiak.assertj.generator"
@@ -13,6 +14,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -25,4 +27,16 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = group.toString()
+            artifactId = rootProject.name
+            version = version
+
+            from(components["java"])
+        }
+    }
 }
