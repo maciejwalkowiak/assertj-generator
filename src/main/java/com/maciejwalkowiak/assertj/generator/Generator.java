@@ -18,27 +18,27 @@ import org.assertj.core.api.Assertions;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 
-class Generator {
+public class Generator {
 
     private final GeneratorOptions options;
     private final Set<Class<?>> classes = new HashSet<>();
     private final Set<String> packages = new HashSet<>();
 
-    Generator(GeneratorOptions options) {
+    public Generator(GeneratorOptions options) {
         this.options = options;
     }
 
-    Generator addClass(Class<?> clazz) {
+    public Generator addClass(Class<?> clazz) {
         this.classes.add(clazz);
         return this;
     }
 
-    Generator addPackage(String packageName) {
+    public Generator addPackage(String packageName) {
         this.packages.add(packageName);
         return this;
     }
 
-    GenerateResult generate() {
+    public GenerateResult generate() {
         String lowerCase = options.entrypointPackage().toLowerCase();
         Set<Class<?>> allClasses = new HashSet<>();
         allClasses.addAll(this.packages.stream()
@@ -80,21 +80,27 @@ class Generator {
                 .stream();
     }
 
-    GenerateResult generateFiles() {
+    public GenerateResult generateFiles() {
         GenerateResult result = this.generate();
 
-        writeClassToFile(options.entrypointPackage(), "Assertions", result.entryPoint());
+        String entrypointPackage = options.entrypointPackage();
+
+        if (entrypointPackage == null) {
+            throw new IllegalStateException("entrypointPackage must be set");
+        }
+
+        writeClassToFile(entrypointPackage, "Assertions", result.entryPoint());
         result.generatedClasses().forEach(this::writeClassToFile);
 
         return result;
     }
 
-    void writeClassToFile(GeneratedClass generatedClass) {
+    private void writeClassToFile(GeneratedClass generatedClass) {
         writeClassToFile(generatedClass.classDescription().packageName(),
                 generatedClass.classDescription().assertionClassName(), generatedClass.typeSpec());
     }
 
-    void writeClassToFile(String packageName, String className, TypeSpec typeSpec) {
+    private void writeClassToFile(String packageName, String className, TypeSpec typeSpec) {
         JavaFile javaFile = JavaFile.builder(packageName, typeSpec)
                 .build();
         Path directory = options.targetDirectory().resolve(Path.of(packageName.replace(".", "/")));

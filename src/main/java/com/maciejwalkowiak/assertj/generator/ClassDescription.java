@@ -29,6 +29,12 @@ class ClassDescription {
         return methods;
     }
 
+    MethodDescription method(String methodName) {
+        return methods.stream().filter(it -> it.methodName().equals(methodName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Method " + methodName + " not found"));
+    }
+
     Class<?> clazz() {
         return clazz;
     }

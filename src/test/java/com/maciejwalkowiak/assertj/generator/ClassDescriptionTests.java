@@ -9,15 +9,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClassDescriptionTests {
 
     @Test
-    void foo() {
+    void resolvesClassProperties() {
         ClassDescription classDescription = ClassDescription.of(Person.class);
         assertThat(classDescription.assertionClassName()).isEqualTo("PersonAssert");
+        assertThat(classDescription.packageName()).isEqualTo("com.maciejwalkowiak.assertj.generator");
         assertThat(classDescription.clazz()).isEqualTo(Person.class);
         assertThat(classDescription.methods()).hasSize(3);
     }
 
     @Test
-    void foo2() {
+    void resolvesMethodProperties() {
         ClassDescription classDescription = ClassDescription.of(Person.class);
         assertThat(classDescription.methods()).anySatisfy(method -> {
             assertThat(method.methodName()).isEqualTo("getLastName");
